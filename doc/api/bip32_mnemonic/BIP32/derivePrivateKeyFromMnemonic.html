@@ -107,19 +107,25 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>Returns a raw hex-encoded string for a given mnemonic</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">String derivePrivateKeyFromMnemonic(String mnemonic, String derivationPath, [int change = 0, int addressIndex = 0]) {
+  <pre class="language-dart"><code class="language-dart">String derivePrivateKeyFromMnemonic(String mnemonic, String derivationPath,
+    [int change = 0, int addressIndex = 0]) {
   assert(derivationPath.substring(0, 2) == &#39;m&#47;&#39;);
-  final List&lt;String&gt; derivationPathSplit = derivationPath.substring(2).split(&#39;&#47;&#39;);
+  final List&lt;String&gt; derivationPathSplit =
+      derivationPath.substring(2).split(&#39;&#47;&#39;);
   final List&lt;BigInt&gt; derivationPathLst = [];
   &#47;&#47; ignore: avoid_function_literals_in_foreach_calls
   derivationPathSplit.forEach((String indivComponent) {
     if (indivComponent.contains(&#39;\&#39;&#39;)) {
-      derivationPathLst.add(BigInt.from(2147483648 + int.parse(indivComponent.replaceAll(&#39;\&#39;&#39;, &#39;&#39;))));
+      derivationPathLst.add(BigInt.from(
+          2147483648 + int.parse(indivComponent.replaceAll(&#39;\&#39;&#39;, &#39;&#39;))));
     } else {
       derivationPathLst.add(BigInt.from(int.parse(indivComponent)));
     }
@@ -156,7 +162,7 @@
 <footer>
   <span class="no-break">
     bip32_mnemonic
-      1.0.0
+      1.0.1
   </span>
 
   

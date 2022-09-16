@@ -65,7 +65,7 @@
 <section class="desc markdown">
   <p>A BIP32 implementation for generating public/private key pairs from a mnemonic seed phrase, given an HD derivation path.</p>
 <h2 id="features">Features</h2>
-<p>Generate public/private key pairs from a mnemonic, using the HD derivation path from the BIP32 extended key spec.</p>
+<p>Generate public/private key pairs from a mnemonic, using the BIP32 derivation path. Derives both hardened and non-hardened addresses following the <code>m/44'</code> derivation path format.</p>
 <h2 id="usage">Usage</h2>
 <p>Generate a public/private key pair:</p>
 <pre class="language-dart"><code class="language-dart">BIP32 bip32 = BIP32();
@@ -92,7 +92,7 @@ Credentials creds = await bip32.deriveCredentialsFromPrivateKey(privKey);
   <span class="name"><a href="bip32_mnemonic/bip32_mnemonic-library.html">bip32_mnemonic</a></span> 
 
 </dt>
-<dd> 
+<dd>A BIP32 key derivation implementation for mnemonics 
 </dd>
 
         </dl>
@@ -108,7 +108,7 @@ Credentials creds = await bip32.deriveCredentialsFromPrivateKey(privKey);
 <footer>
   <span class="no-break">
     bip32_mnemonic
-      1.0.0
+      1.0.1
   </span>
 
   

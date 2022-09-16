@@ -11,7 +11,11 @@ import 'package:web3dart/web3dart.dart';
 
 // this implementation is based heavily on https://github.com/vergl4s/ethereum-mnemonic-utils/blob/master/mnemonic_utils.py
 // which derives from https://github.com/satoshilabs/slips/blob/master/slip-0010/testvectors.py
+
+/// An implementation for deriving keys from a BIP32 mnemonic given an HD derivation path
 class BIP32 {
+
+  /// Derive a public key from the private key
   Uint8List _derivePublicKey(Uint8List privateKey) {
     final String publicKey =
         lib_secp256k1.PrivateKey.fromHex(hex.encode(privateKey))
@@ -20,6 +24,7 @@ class BIP32 {
     return Uint8List.fromList(hex.decoder.convert(publicKey));
   }
 
+  /// Derive a BIP32 child key
   List<Uint8List> _deriveBip32ChildKey(
       Uint8List parentKey, Uint8List parentChain, BigInt i) {
     Uint8List childKey;
@@ -70,15 +75,18 @@ class BIP32 {
     return <Uint8List>[childKey, childChain];
   }
 
-  // returns a raw hex-encoded string for a given mnemonic
-  String derivePrivateKeyFromMnemonic(String mnemonic, String derivationPath, [int change = 0, int addressIndex = 0]) {
+  /// Returns a raw hex-encoded string for a given mnemonic
+  String derivePrivateKeyFromMnemonic(String mnemonic, String derivationPath,
+      [int change = 0, int addressIndex = 0]) {
     assert(derivationPath.substring(0, 2) == 'm/');
-    final List<String> derivationPathSplit = derivationPath.substring(2).split('/');
+    final List<String> derivationPathSplit =
+        derivationPath.substring(2).split('/');
     final List<BigInt> derivationPathLst = [];
     // ignore: avoid_function_literals_in_foreach_calls
     derivationPathSplit.forEach((String indivComponent) {
       if (indivComponent.contains('\'')) {
-        derivationPathLst.add(BigInt.from(2147483648 + int.parse(indivComponent.replaceAll('\'', ''))));
+        derivationPathLst.add(BigInt.from(
+            2147483648 + int.parse(indivComponent.replaceAll('\'', ''))));
       } else {
         derivationPathLst.add(BigInt.from(int.parse(indivComponent)));
       }
@@ -103,11 +111,12 @@ class BIP32 {
     return hex.encode(key);
   }
 
-  Future<Credentials> deriveCredentialsFromPrivateKey(
-      String privKey) async {
+  /// Return a web3dart Credentials object from a private key
+  Future<Credentials> deriveCredentialsFromPrivateKey(String privKey) async {
     return EthPrivateKey.fromHex(privKey);
   }
 
+  /// Return a signed message given a web3dart Credentials object and a message
   Future<String> signWithEthereumAddress(
       Credentials credentials, String dataToSign) async {
     final Uint8List signedMsg = await credentials
